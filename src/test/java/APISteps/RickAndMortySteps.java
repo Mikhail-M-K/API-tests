@@ -5,6 +5,8 @@ import io.cucumber.java.ru.Затем;
 import io.cucumber.java.ru.И;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Flaky;
+import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -22,6 +24,8 @@ public class RickAndMortySteps {
     @Дано("^Получить инфо про персонажа по ID '(.*)'$")
     public static void getCharacter(String id) {
         Response gettingCharacter = given()
+                .filter(new AllureRestAssured())
+                .filter(new ResponseLoggingFilter())
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
                 .get("/character/" + id)
@@ -42,6 +46,8 @@ public class RickAndMortySteps {
     @Затем("^Получить последний эпизод с участием выбранного персонажа$")
     public static void getEpisode() {
         Response gettingLastEpisode = given()
+                .filter(new AllureRestAssured())
+                .filter(new ResponseLoggingFilter())
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
                 .get("/character/" + characterId)
@@ -57,6 +63,8 @@ public class RickAndMortySteps {
     @Затем("^Получить последнего персонажа в эпизоде$")
     public static void getPerson() {
         Response gettingLastPerson = given()
+                .filter(new AllureRestAssured())
+                .filter(new ResponseLoggingFilter())
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
                 .get("/episode/" + lastEpisode)
@@ -72,6 +80,8 @@ public class RickAndMortySteps {
     @Затем("^Получить информацию о последнем персонаже$")
     public static void getPersonLast() {
         Response gettingParametersPerson = given()
+                .filter(new AllureRestAssured())
+                .filter(new ResponseLoggingFilter())
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
                 .get("/character/" + idLastPerson)

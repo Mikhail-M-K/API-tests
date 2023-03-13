@@ -3,6 +3,8 @@ package APISteps;
 import io.cucumber.java.ru.Дано;
 import io.cucumber.java.ru.Затем;
 import io.qameta.allure.Allure;
+import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +26,8 @@ public class ReqresSteps {
         body.put("name", "Tomato");
         body.put("job", "Eat market");
         Response postJson = given()
+                .filter(new AllureRestAssured())
+                .filter(new ResponseLoggingFilter())
                 .header("Content-type", "application/json")
                 .baseUri(getProperty("pageReqres"))
                 .body(body.toString())
@@ -36,8 +40,6 @@ public class ReqresSteps {
         JSONObject jsonObject = new JSONObject(postJson.getBody().asString());
         nameJson = jsonObject.get("name").toString();
         jobJson = jsonObject.get("job").toString();
-        Allure.addAttachment("Отправленный JSON", body.toString());
-        Allure.addAttachment("Ответный JSON", jsonObject.toString());
         Allure.addAttachment("ID созданного пользователя", (jsonObject.get("id")).toString());
         Allure.addAttachment("Время создания профиля", (jsonObject.get("createdAt")).toString());
     }
