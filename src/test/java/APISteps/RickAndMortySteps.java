@@ -19,9 +19,8 @@ public class RickAndMortySteps {
     public static int lastEpisode, idLastPerson;
 
 
-
-    @Дано ("^Получить инфо про персонажа по ID '(.*)'$")
-    public static void getCharacter(String id){
+    @Дано("^Получить инфо про персонажа по ID '(.*)'$")
+    public static void getCharacter(String id) {
         Response gettingCharacter = given()
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
@@ -41,7 +40,7 @@ public class RickAndMortySteps {
     }
 
     @Затем("^Получить последний эпизод с участием выбранного персонажа$")
-    public static void getEpisode(){
+    public static void getEpisode() {
         Response gettingLastEpisode = given()
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
@@ -49,9 +48,9 @@ public class RickAndMortySteps {
                 .then()
                 .extract()
                 .response();
-        int episode = (new JSONObject(gettingLastEpisode.getBody().asString()).getJSONArray("episode").length()-1);
+        int episode = (new JSONObject(gettingLastEpisode.getBody().asString()).getJSONArray("episode").length() - 1);
         lastEpisode = Integer.parseInt(new JSONObject(gettingLastEpisode.getBody().asString())
-                .getJSONArray("episode").get(episode).toString().replaceAll("[^0-9]",""));
+                .getJSONArray("episode").get(episode).toString().replaceAll("[^0-9]", ""));
         Allure.addAttachment("Последний эпизод где присутствовал " + characterName, lastEpisode + "");
     }
 
@@ -71,7 +70,7 @@ public class RickAndMortySteps {
     }
 
     @Затем("^Получить информацию о последнем персонаже$")
-    public static void getPersonLast(){
+    public static void getPersonLast() {
         Response gettingParametersPerson = given()
                 .spec(REQUEST_SPECIFICATION_R_A_M)
                 .when()
@@ -90,11 +89,11 @@ public class RickAndMortySteps {
 
     @Flaky
     @И("^Сравнить совпадение расы и локаций$")
-    public static void checkData(){
+    public static void checkData() {
         Allure.addAttachment("Персонажи для сравнения (параметры находятся в том же порядке)", personName + " : " + characterName);
         Allure.addAttachment("Расы для сравнения", personRace + " : " + characterRace);
         Allure.addAttachment("Места нахождения для сравнения", personLocation + " : " + characterLocation);
-        Assertions.assertEquals("Расы отличаются => ",personRace, characterRace);
-        Assertions.assertEquals("Места нахождения отличаются => ",personLocation, characterLocation);
+        Assertions.assertEquals("Расы отличаются => ", personRace, characterRace);
+        Assertions.assertEquals("Места нахождения отличаются => ", personLocation, characterLocation);
     }
 }

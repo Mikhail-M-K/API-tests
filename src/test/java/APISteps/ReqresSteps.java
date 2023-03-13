@@ -25,7 +25,7 @@ public class ReqresSteps {
         body.put("job", "Eat market");
         Response postJson = given()
                 .header("Content-type", "application/json")
-                .baseUri(/*getProperty("pageReqres")*/"https://reqres.in/api")
+                .baseUri(getProperty("pageReqres"))
                 .body(body.toString())
                 .when()
                 .post("/users")
@@ -43,7 +43,7 @@ public class ReqresSteps {
     }
 
     @Затем("^Сравнение результатов c '(.*)', '(.*)'$")
-    public static void CheckPerson(String name, String job){
+    public static void CheckPerson(String name, String job) {
         Allure.addAttachment("Имена для сравнения", nameJson + " : " + name);
         Allure.addAttachment("Места работы для сравнения", jobJson + " : " + job);
         Assertions.assertEquals(nameJson, name, "Fail");
