@@ -93,7 +93,7 @@ public class RickAndMortySteps {
         Allure.addAttachment("Персонажи для сравнения (параметры находятся в том же порядке)", personName + " : " + characterName);
         Allure.addAttachment("Расы для сравнения", personRace + " : " + characterRace);
         Allure.addAttachment("Места нахождения для сравнения", personLocation + " : " + characterLocation);
-        Assertions.assertEquals("Расы отличаются => ", personRace, characterRace);
-        Assertions.assertEquals("Места нахождения отличаются => ", personLocation, characterLocation);
+        Assertions.assertEquals(personRace, characterRace,"Расы отличаются");
+        Assertions.assertEquals(personLocation, characterLocation, "Места нахождения отличаются");
     }
 }
